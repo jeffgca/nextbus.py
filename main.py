@@ -1,7 +1,13 @@
-from bottle import route, run
-from simplejson import dumps, loads
+try:
+    from bottle import route, run
+except ImportError:
+    print "Error importing bottle, please run ./getdeps to fetch bottle.py into the current directory."
+    import sys
+    sys.exit(1)
 
+from simplejson import dumps, loads
 import translink
+
 proxy = translink.TranslinkProxy()
 
 @route('/times/:stop')
