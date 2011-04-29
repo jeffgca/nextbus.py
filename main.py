@@ -11,13 +11,13 @@ import translink
 proxy = translink.TranslinkProxy()
 
 @route('/times/:stop')
-def name(stop):
+def times(stop):
     """ http://localhost:8080/times/51217 """
     return dumps(proxy.get_bus_times(stop))
 
-@route('/nearby/:lat/:long')
+@route('/nearby/:long/:lat')
 def nearby(lat, long):
-    """ http://localhost:8080/nearby/49.25344/-123.16789 """
+    """ http://localhost:8080/nearby/-123.16789/49.25344 """
     return dumps(proxy.get_nearby_stops(lat, long))
 
 @route('/')

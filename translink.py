@@ -23,16 +23,13 @@ class TranslinkProxy(object):
 
     # http://m.translink.ca/api/stops/?s=51217
     def _httpGet(self, params):
+        # un-comment to print out headers in the console
         # httplib.HTTPConnection.debuglevel = 1
         url = "http://%s/%s" % (self.baseUri, params)
         response = urllib.urlopen(url).read()
         return loads(response)
-        
-    
-    def get_nearby_stops(self, lat, long):
-        """
-            http://m.translink.ca/api/stops/?f=json&lng=-123.16789&lat=49.25344
-        """
+
+    def get_nearby_stops(self, long, lat):
         return self._httpGet("api/stops/?f=json&lng=%s&lat=%s" % (long, lat))
     
     def get_bus_times(self, stop):
