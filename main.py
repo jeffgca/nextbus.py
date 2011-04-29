@@ -1,14 +1,19 @@
 try:
-    from bottle import route, run
+    import bottle
+    from bottle import route, run, static_file, get
 except ImportError:
+    print ImportError
     print "Error importing bottle, please run ./getdeps to fetch bottle.py into the current directory."
     import sys
     sys.exit(1)
 
+import os
+from os.path import abspath, dirname, basename, exists, join
 from simplejson import dumps, loads
 import translink
 
 proxy = translink.TranslinkProxy()
+static_root = abspath(join(dirname(__file__), "public"))
 
 @route('/times/:stop')
 def times(stop):
@@ -22,6 +27,15 @@ def nearby(lat, long):
 
 @route('/')
 def index():
-    return dumps({'status': 'invalid request'})
+    return load_file('index.html')
+    
+# this should never ever be used in production, always serve static files
+# directly from Nginx
+
+@route('/:path#.+#')
+def static(path):
+    return static_file(path, root=static_root)
+
+bottle.debug(True)
 
 run(host='localhost', port=8080)
