@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Map test</title>
+<style type="text/css">
+#map {
+    height: 800px;
+}
+</style>
+<script type="text/javascript"
+        src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAPLTWC6zZhSJJdZZSl8hzdhSzqX87xsMqTfViszy_8uf4UCHaehQKWNyC6jPh-uaGhtyuHYfi46uW9g"></script>
+<script type="text/javascript" src="js/jquery-1.5.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript">
+
+function initializeMap() {
+    if (!mapInitialized) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            
+            console.log([position.coords.latitude, position.coords.longitude]);
+            
+            //var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            var latlng = new google.maps.LatLng(49.251209,-123.068985);
+            var myOptions = {
+                zoom: 1,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            
+            var map = new google.maps.Map(document.getElementById("map"), myOptions);
+            
+            
+            var kmlUri = 'http://m.translink.ca/api/kml/stop/51217/';
+            var Kml = new google.maps.KmlLayer(kmlUri);
+            Kml.setMap(map);            
+            
+            //var marker = new google.maps.Marker({
+            //    position: latlng,
+            //    map: map
+            //});
+            //
+            //var infoWindow = new google.maps.InfoWindow({
+            //    content: '<p>Current Latitude: ' + latlng.lat() + '</p><p>Current Longitude: ' + latlng.lng() + '</p>',
+            //    position: latlng
+            //});
+            //
+            //infoWindow.open(map, marker);
+        });
+        mapInitialized = true;
+    }
+}
+
+var mapInitialized = false;
+
+$(document).ready(function() {
+    navigator.geolocation.getCurrentPosition(
+        function(location) {
+            initializeMap();
+        }
+    );
+});
+</script>
+
+</head>
+<body>
+<div id="map" style="width: 100%; height: 274px;"></div>
+</body>
+</html>

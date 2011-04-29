@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title></title>
+
+
+<link href="./css/nextbus.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="./css/less.css" rel="stylesheet" type="text/css" media="screen" />
+
+<script type="application/x-javascript" src="./config.php"></script>
+<script type="application/x-javascript" src="./js/nextbus_ui.js"></script>
+<script type="application/x-javascript" src="./js/nextbus.js"></script>
+
+<script type="application/x-javascript">
+$(document).ready(function() {
+    nextbus.ui.init();
+});
+</script>
+
+</head>
+<body lang="en">
+
+<div id="search">
+    <div id="search-toolbar" class="toolbar">
+        <h3>Search</h3>
+    </div>
+
+    <ul class="rounded" id="search-form">
+	    <li><input type="text" name="search" placeholder="Stop Number" id="stop_number"/>
+	    <input type="submit" value="Search" id="submit_btn"/></li>
+    </ul>
+
+    <ul id="error-box" class="error rounded"></ul>
+    
+    <ul id="stop_container" class="rounded">
+        <li id="stop_name"></li>
+    </ul>
+    
+    <ul id="bus-data" class="rounded"></ul>
+    
+    <ul id="stop_container" class="rounded">
+        <li id="history-link">
+	    <a href="#history">History</a>
+	</li>
+    </ul>
+    
+</div>
+
+<div id="history">
+    <div class="toolbar">
+        <h3>History</h3>
+        <a href="#search" class="back">Back</a>
+    </div>
+    
+    <ul class="rounded" id="history-list">
+        <li>No stop history saved.</li>
+    </ul>    
+</div>
+<div id="location-div">
+    Location: <span id="location"></span>
+</div>
+</body>
+</html>

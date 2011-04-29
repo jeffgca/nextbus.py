@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>JQuery Mobile hackery</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.css" />
+<script type="text/javascript" src="js/jquery-1.5.min.js"></script>
+<script type="application/x-javascript" src="js/jquery.mobile-1.0a3.js"></script>
+<script type="application/x-javascript" src="./config.php"></script>
+<script type="application/x-javascript" src="js/nextbus.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script type="application/x-javascript">
+
+    var err = function(a, b) {
+        var args = [].slice.call(arguments);
+        console.log(args);
+    }
+
+    /**
+     * Todo March 18:
+     * - implement map to see stops on the map? KML?
+     * - implement detail view for a stop
+     * - implement some guessing or whatever of the directionality of a stop.
+     */
+    function listNearbyStops(stops) {
+        var args = [].slice.call(arguments);
+        console.log(args);
+        var out = '';
+        for (i in stops) {
+            s = stops[i];
+            out += '<li><a href="#" id="' + s[0] + '">' + s[0] + ': ' + s[1] + "</a></li>\n";
+        }
+        $('#stop-list').html(out);
+        $('#stop-list').listview('refresh');
+        
+    }
+    
+    var mapInitialized = false;
+    function initializeMap() {
+        if (!mapInitialized) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                var myOptions = {
+                    zoom: 16,
+                    center: latlng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+                var marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map
+                });
+                var infoWindow = new google.maps.InfoWindow({
+                    content: '<p>Current Latitude: ' + latlng.lat() + '</p><p>Current Longitude: ' + latlng.lng() + '</p>',
+                    position: latlng
+                });
+                infoWindow.open(map, marker);
+                $('#map_canvas').css('height', '274px');
+            });
+            mapInitialized = true;
+        }
+    }
+    
+    $(document).ready(
+        function() {
+            nextbus.init(window.nextbus_base_url);
+        //    window.setTimeout(function() {
+        //        console.log('fired timeout function...');
+        //        nextbus.geo.init(function() {
+        //            nextbus.geo.getCurrentLocation(function(location) {
+        //                nextbus.geo.getNearbyStops(
+        //                    location.coords.latitude,
+        //                    location.coords.longitude,
+        //                    listNearbyStops,
+        //                    err
+        //                );
+        //            }, err);
+        //        });
+        //    },
+        //200);
+
+    initializeMap();
+    }); 
+</script>
+</head>
+<body lang="en">
+<div data-role="page" id="nearby">
+    <div data-role="header" id="nearby">
+        <h1>Nextbus: Nearby Stops</h1>
+        <a href="#map" data-rel="dialog" data-transition="pop">Map</a>
+    </div>
+    
+    <div data-role="content" id="map_canvas" style="width:100%; height:274px"></div>
+    <!--<div data-role="content" id="nearby">-->
+    <!--    <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b" id="stop-list"></ul>-->
+    <!--</div>-->
+    <div data-role="footer" id="nearby">
+        <a href="#about" data-rel="dialog" data-transition="pop">About</a>
+    </div>
+</div>
+
+<div data-role="page" id="map">
+    <div data-role="header" id="map">
+        <h1>Map</h1>
+    </div>
+    <!--<div data-role="content" id="map_canvas" style="width:100%; height:100%"></div>-->
+    <div data-role="footer" id="map"></div>
+</div>
+
+<div data-role="page" id="about">
+    <div data-role="header" id="about">
+        <h1>About nextbus</h1>
+    </div>
+    <div data-role="content" id="about">
+        <p>Developed for the mobile web by Jeff Griffiths.</p>
+        <p>Source available on <a href="https://github.com/canuckistani/Next-Bus">Github</a>.</p>
+        <p>Nextbus relies on a JSON-based data API published by Translink and
+        used in their own mobile apps, however as of this writing this API use
+        is strictly unnofficial and may stop working at any time.</p>
+        <p>You've been warned! Etc, etc.</p>
+        
+    </div>
+    <div data-role="footer" id="about">
+        <a href="#nearby" data-role="button">Home</a>
+    </div>
+</div>
+
+</body>
+</html>
