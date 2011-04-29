@@ -1,2 +1,4 @@
 *.pyc
 *.DS_Store
+*.sqlite3
+bottle.py
