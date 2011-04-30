@@ -33,12 +33,14 @@ class TranslinkProxy(object):
         return self._httpGet("api/stops/?f=json&lng=%s&lat=%s" % (long, lat))
     
     def get_bus_times(self, stop):
-        return self._httpGet("api/stops/?s=%s" % stop)
+        parsed = self._httpGet("api/stops/?s=%s" % stop)
+        stop_info = {"number": stop, "name": parsed[0]["stopName"]}
+        data = parsed
+        return {"stop_info": stop_info, "data": data};
     
 
 if __name__ == '__main__':
-    # run some tests...
+    # run some functional tests...
     t = TranslinkProxy()
-
     print t.get_bus_times("51217")
-    print t.get_nearby_stops("49.25344", "-123.16789")
+    #print t.get_nearby_stops("49.25344", "-123.16789")
