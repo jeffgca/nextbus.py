@@ -19,9 +19,6 @@ asyncTest("Test getting the current location [async]", function() {
                 
                 start();
             });
-        },
-        function(a, b) {
-            console.log([].slice.call(arguments));
         });
 });
 
@@ -38,10 +35,7 @@ asyncTest("Test getting nearby stops via location", function() {
             ok((typeof(stop[1]) == 'string'), "Second field is a string");     
             start();
         })    
-    }),
-    function(xhr, b) {
-        start();
-    }
+    });
 });
 
 asyncTest("Get bus times from the server", function() {
@@ -62,10 +56,6 @@ asyncTest("Get bus times from the server", function() {
         ok((route.direction == "North"), "Direction is North");
         ok((route.stopID == '51217'), "Stop ID is 51217");
         
-        start();
-    },
-    function(a, b) {
-        console.log(a, b);
         start();
     });
 });
