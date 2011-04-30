@@ -20,7 +20,7 @@ if(typeof(nextbus) == 'undefined') {
     }
     
     this.get = function(number, success, error) {
-        var uri = this.base_url + 'server.php?method=times&stop=' + number;
+        var uri = '/times/' + number;
 	
 	$.getJSON(uri, function(data) {
 	    console.log("In getJSON callback...");
@@ -160,11 +160,11 @@ if(typeof(nextbus.geo) == 'undefined') {
     
     this.getNearbyStops = function(latitude, longitude, success, error) {
 	
-	var uri = window.nextbus_base_url + 'server.php?method=nearby';
+	var uri = '/nearby/';
+	uri += latitude + '/';
+	uri += longitude;
 	
-	uri += '&lat=' + latitude;
-	uri += '&long=' + longitude;
-	
+
 	console.log(uri);
 	
 	$.getJSON(uri, function(data) {
