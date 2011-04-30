@@ -24,6 +24,7 @@
      */
     function listNearbyStops(stops) {
         var args = [].slice.call(arguments);
+        console.log("In success handler.");
         console.log(args);
         var out = '';
         for (i in stops) {
@@ -63,22 +64,21 @@
     $(document).ready(
         function() {
             nextbus.init(window.nextbus_base_url);
-        //    window.setTimeout(function() {
-        //        console.log('fired timeout function...');
-        //        nextbus.geo.init(function() {
-        //            nextbus.geo.getCurrentLocation(function(location) {
-        //                nextbus.geo.getNearbyStops(
-        //                    location.coords.latitude,
-        //                    location.coords.longitude,
-        //                    listNearbyStops,
-        //                    err
-        //                );
-        //            }, err);
-        //        });
-        //    },
-        //200);
+            window.setTimeout(function() {
+                nextbus.geo.init(function() {
+                    nextbus.geo.getCurrentLocation(function(location) {
+                        nextbus.geo.getNearbyStops(
+                            location.coords.latitude,
+                            location.coords.longitude,
+                            listNearbyStops,
+                            err
+                        );
+                    }, err);
+                });
+            },
+        200);
 
-    initializeMap();
+    //initializeMap();
     }); 
 </script>
 </head>
@@ -89,10 +89,10 @@
         <a href="#map" data-rel="dialog" data-transition="pop">Map</a>
     </div>
     
-    <div data-role="content" id="map_canvas" style="width:100%; height:274px"></div>
-    <!--<div data-role="content" id="nearby">-->
-    <!--    <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b" id="stop-list"></ul>-->
-    <!--</div>-->
+    <!--<div data-role="content" id="map_canvas" style="width:100%; height:274px"></div>-->
+    <div data-role="content" id="nearby">
+        <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b" id="stop-list"></ul>
+    </div>
     <div data-role="footer" id="nearby">
         <a href="#about" data-rel="dialog" data-transition="pop">About</a>
     </div>
