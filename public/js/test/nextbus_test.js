@@ -1,3 +1,5 @@
+var baseUrl = window.location.href;
+
 test("Test geolocation", function() {
     var geo_supported = (typeof(navigator.geolocation) !== 'undefined');
     ok(geo_supported, "navigator.geolocation shouldn't be undefined");
@@ -23,7 +25,7 @@ asyncTest("Test getting the current location [async]", function() {
 });
 
 asyncTest("Test getting nearby stops via location", function() {
-    nextbus.init('http://absolom.local/nextbus/');
+    nextbus.init(baseUrl);
     nextbus.geo.init(function() {
         start();
         nextbus.geo.getNearbyStops(49.248523, -123.1088, function(data) {
@@ -40,7 +42,7 @@ asyncTest("Test getting nearby stops via location", function() {
 
 asyncTest("Get bus times from the server", function() {
     
-    nextbus.init('http://absolom.local/nextbus/');
+    nextbus.init(baseUrl);
     nextbus.get('51217', function(data) {
         console.log(data);
         
@@ -59,5 +61,3 @@ asyncTest("Get bus times from the server", function() {
         start();
     });
 });
-
-
