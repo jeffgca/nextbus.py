@@ -27,7 +27,7 @@ def nearby(lat, long):
 
 @route('/')
 def index():
-    return load_file('index.html')
+    return static_file('index.html', root=static_root)
     
 # this should never ever be used in production, always serve static files
 # directly from Nginx
@@ -38,4 +38,4 @@ def static(path):
 
 bottle.debug(True)
 
-run(host='localhost', port=8080)
+run(host='0.0.0.0', port=8080)
