@@ -18,11 +18,13 @@ static_root = abspath(join(dirname(__file__), "public"))
 @route('/times/:stop')
 def times(stop):
     """ http://localhost:8080/times/51217 """
+    bottle.response.content_type = 'application/json'
     return dumps(proxy.get_bus_times(stop))
 
 @route('/nearby/:long/:lat')
 def nearby(lat, long):
     """ http://localhost:8080/nearby/-123.16789/49.25344 """
+    bottle.response.content_type = 'application/json'
     return dumps(proxy.get_nearby_stops(lat, long))
 
 @route('/')
