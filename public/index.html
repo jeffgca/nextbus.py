@@ -4,9 +4,9 @@
 <meta charset="utf-8"/>
 <title>JQuery Mobile hackery</title>
 
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.css" />
 <script type="text/javascript" src="js/jquery-1.5.min.js"></script>
-<script type="application/x-javascript" src="js/jquery.mobile-1.0a3.js"></script>
+<script type="application/x-javascript" src="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.js"></script>
 <script type="application/x-javascript" src="js/nextbus.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script type="application/x-javascript">
@@ -29,7 +29,7 @@
         var out = '';
         for (i in stops) {
             s = stops[i];
-            out += '<li><a href="#" id="' + s[0] + '">' + s[0] + ': ' + s[1] + "</a></li>\n";
+            out += '<li><a href="#stop" id="' + s[0] + '">' + s[0] + ': ' + s[1] + "</a></li>\n";
         }
         $('#stop-list').html(out);
         $('#stop-list').listview('refresh');
@@ -83,17 +83,29 @@
 </script>
 </head>
 <body lang="en">
-<div data-role="page" id="nearby">
-    <div data-role="header" id="nearby">
+<div data-role="page" id="nearby-page">
+    <div data-role="header" id="nearby-header">
         <h1>Nextbus: Nearby Stops</h1>
-        <a href="#map" data-rel="dialog" data-transition="pop">Map</a>
     </div>
     
     <!--<div data-role="content" id="map_canvas" style="width:100%; height:274px"></div>-->
     <div data-role="content" id="nearby">
         <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b" id="stop-list"></ul>
     </div>
-    <div data-role="footer" id="nearby">
+    <div data-role="footer" id="nearby-footer">
+        <a href="#about" data-rel="dialog" data-transition="pop">About</a>
+    </div>
+</div>
+
+<div data-role="page" id="stop-page">
+    <div data-role="header" id="stop-header">
+        <h1>Placeholder</h1>
+        <a href="#map" data-rel="dialog" data-transition="pop">Map</a>
+    </div>
+    <div data-role="content" id="stop">
+        <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b" id="stop-list"></ul>
+    </div>
+    <div data-role="footer" id="stop-footer">
         <a href="#about" data-rel="dialog" data-transition="pop">About</a>
     </div>
 </div>

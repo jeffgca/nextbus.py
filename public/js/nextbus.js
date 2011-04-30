@@ -32,14 +32,13 @@ if(typeof(nextbus) == 'undefined') {
 /**
  * namespace nextbus.history
  */
-
 if(typeof(nextbus.history) == 'undefined') {
     nextbus.history = {};
 }
 
 (function() {
     
-    /* they history key we're using */
+    /* the history key we're using */
     this.storage_label = 'nextbus_history';
     this.data = [];
     
@@ -148,7 +147,7 @@ if(typeof(nextbus.geo) == 'undefined') {
 	    },
 	    function(a,b) {
 		var args = [].slice.call(arguments);
-		consoel.log(args)
+		console.log(args)
 	    }
 	);
     }
@@ -168,7 +167,6 @@ if(typeof(nextbus.geo) == 'undefined') {
 	console.log(uri);
 	
 	$.getJSON(uri, function(data) {
-	    console.log("In getJSON callback...");
 	    console.log(data)
 	    success(data);
 	});
