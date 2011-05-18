@@ -10,23 +10,23 @@ To Do:
 
 *Raw:*
 
-[{
-    "stopName": "NB Commercial Dr FS Findlay St",
-    "direction": "North",
-    "favourite": false,
-    "routeID": "N20",
-    "stopID": "51217",
-    "routeName": "N20 - Downtown/Victoria Nightbus",
-    "times": ["1:41a", "2:11a", "2:41a", "1:41a"]
-}, {
-    "stopName": "NB Commercial Dr FS Findlay St",
-    "direction": "North",
-    "favourite": false,
-    "routeID": "020",
-    "stopID": "51217",
-    "routeName": "020 - Victoria/Downtown              ",
-    "times": ["8:47a", "8:55a", "9:02a", "9:10a"]
-}]
+    [{
+        "stopName": "NB Commercial Dr FS Findlay St",
+        "direction": "North",
+        "favourite": false,
+        "routeID": "N20",
+        "stopID": "51217",
+        "routeName": "N20 - Downtown/Victoria Nightbus",
+        "times": ["1:41a", "2:11a", "2:41a", "1:41a"]
+    }, {
+        "stopName": "NB Commercial Dr FS Findlay St",
+        "direction": "North",
+        "favourite": false,
+        "routeID": "020",
+        "stopID": "51217",
+        "routeName": "020 - Victoria/Downtown              ",
+        "times": ["8:47a", "8:55a", "9:02a", "9:10a"]
+    }]
 
 *Our JSON:*
 
