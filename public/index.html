@@ -27,12 +27,19 @@
         console.log("In success handler.");
         console.log(args);
         var out = '';
+        var bind_ids = []
         for (i in stops) {
             s = stops[i];
-            out += '<li><a href="#stop" id="' + s[0] + '">' + s[0] + ': ' + s[1] + "</a></li>\n";
+            out += '<li><a href="#stop-page-' + s[0] + '" id="item-' + s[0] + '">' + s[0] + ': ' + s[1] + "</a></li>\n";
         }
         $('#stop-list').html(out);
         $('#stop-list').listview('refresh');
+
+        $('#stop-page').live('pagebeforecreate', function(event, ui) {
+            console.log(event);
+        });
+        
+        /* somehow pass the */
     }
     
     var mapInitialized = false;
@@ -100,7 +107,8 @@
 <div data-role="page" id="stop-page">
     <div data-role="header" id="stop-header">
         <h1>Placeholder</h1>
-        <a href="#map" data-rel="dialog" data-transition="pop">Map</a>
+        <!--<a href="#map" data-rel="dialog" data-transition="pop">Map</a>-->
+        <a href="#nearby-page">Back</a>
     </div>
     <div data-role="content" id="stop">
         <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b" id="stop-list"></ul>
@@ -110,12 +118,12 @@
     </div>
 </div>
 
-<div data-role="page" id="map">
-    <div data-role="header" id="map">
+<div data-role="page" id="map-page">
+    <div data-role="header" id="map-header">
         <h1>Map</h1>
     </div>
     <!--<div data-role="content" id="map_canvas" style="width:100%; height:100%"></div>-->
-    <div data-role="footer" id="map"></div>
+    <div data-role="footer" id="map-footer">&nbsp;</div>
 </div>
 
 <div data-role="page" id="about">
@@ -132,7 +140,7 @@
         
     </div>
     <div data-role="footer" id="about">
-        <a href="#nearby" data-role="button">Home</a>
+        &nbsp;
     </div>
 </div>
 
