@@ -15,7 +15,7 @@ class TranslinkProxy(object):
         
         #    Create the sqlite database handle. 
         if not exists(dirname(dbPath)):
-            raise "Database file doesn't exist: %s" % dbPath
+            raise Exception("Database file doesn't exist: %s" % dbPath)
             
         conn = sqlite3.connect(dbPath)
         cursor = conn.cursor()
@@ -26,6 +26,7 @@ class TranslinkProxy(object):
         # un-comment to print out headers in the console
         # httplib.HTTPConnection.debuglevel = 1
         url = "http://%s/%s" % (self.baseUri, params)
+        print url
         response = urllib.urlopen(url).read()
         return loads(response)
 
@@ -43,4 +44,4 @@ if __name__ == '__main__':
     # run some functional tests...
     t = TranslinkProxy()
     print t.get_bus_times("51217")
-    #print t.get_nearby_stops("49.25344", "-123.16789")
+    print t.get_nearby_stops("49.25344", "-123.16789")
