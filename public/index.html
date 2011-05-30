@@ -15,6 +15,8 @@
         var args = [].slice.call(arguments);
         console.log(args);
     }
+    
+    var currentStop = false;
 
     /**
      * Todo March 18:
@@ -24,22 +26,17 @@
      */
     function listNearbyStops(stops) {
         var args = [].slice.call(arguments);
-        console.log("In success handler.");
-        console.log(args);
         var out = '';
-        var bind_ids = []
         for (i in stops) {
             s = stops[i];
-            out += '<li><a href="#stop-page-' + s[0] + '" id="item-' + s[0] + '">' + s[0] + ': ' + s[1] + "</a></li>\n";
+            out += '<li><a href="#stop-page" id="' + s[0] + '">' + s[0] + ': ' + s[1] + "</a></li>\n";
         }
         $('#stop-list').html(out);
         $('#stop-list').listview('refresh');
-
-        $('#stop-page').live('pagebeforecreate', function(event, ui) {
-            console.log(event);
+        $('#stop-list li a').click(function(ev) {
+            console.log(ev.currentTarget.id);
+            currentStop = ev.currentTarget.id;
         });
-        
-        /* somehow pass the */
     }
     
     var mapInitialized = false;
@@ -68,8 +65,26 @@
         }
     }
     
-    $(document).ready(
+    $(document).ready(        
         function() {
+            $('#stop-page').live('pageshow',function(event, ui) {
+                nextbus.get(currentStop, function(data) {
+                    $('#stop-name').html(data.stop_info.name);
+                    var out = "";
+                    
+                    // <li class="ui-li ui-li-static ui-body-c">Acura</li>
+                    
+                    for (i in data.data) {
+                        out += '<li class="ui-li ui-li-static ui-body-c">'
+                            + data.data[i].routeName + ': '
+                            + data.data[i].times.join(' ')
+                            + '</a></li>';
+                    }
+                    $('#route-list').html(out);
+                    $('#route-list').listview('refresh');
+                });
+            });
+            
             nextbus.init(window.nextbus_base_url);
             window.setTimeout(function() {
                 nextbus.geo.init(function() {
@@ -97,7 +112,7 @@
     
     <!--<div data-role="content" id="map_canvas" style="width:100%; height:274px"></div>-->
     <div data-role="content" id="nearby">
-        <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b" id="stop-list"></ul>
+        <ul id="stop-list" data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b"></ul>
     </div>
     <div data-role="footer" id="nearby-footer">
         <a href="#about" data-rel="dialog" data-transition="pop">About</a>
@@ -106,12 +121,12 @@
 
 <div data-role="page" id="stop-page">
     <div data-role="header" id="stop-header">
-        <h1>Placeholder</h1>
+        <h1 id="stop-name">Placeholder</h1>
         <!--<a href="#map" data-rel="dialog" data-transition="pop">Map</a>-->
         <a href="#nearby-page">Back</a>
     </div>
     <div data-role="content" id="stop">
-        <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b" id="stop-list"></ul>
+        <ul id="route-list" data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b"></ul>
     </div>
     <div data-role="footer" id="stop-footer">
         <a href="#about" data-rel="dialog" data-transition="pop">About</a>
