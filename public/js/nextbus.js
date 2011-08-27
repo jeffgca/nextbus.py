@@ -23,10 +23,13 @@ if(typeof(nextbus) == 'undefined') {
         var uri = '/times/' + number;
 	
 	$.getJSON(uri, function(data) {
-	    console.log("In getJSON callback...");
+	    // console.log("In getJSON callback...");
 	    success(data);
 	})
     }
+    
+    this.currentData = [];
+    
 }).apply(nextbus);
 
 /**
@@ -125,7 +128,7 @@ if(typeof(nextbus.geo) == 'undefined') {
 	    console.log('geolocation not supported...');
 	    return;
 	}
-	console.log("Got here: " + this.geolocation_supported);
+	// console.log("Got here: " + this.geolocation_supported);
 	
 	try {
 	    navigator.geolocation.getCurrentPosition(callback);
@@ -167,7 +170,7 @@ if(typeof(nextbus.geo) == 'undefined') {
 	console.log(uri);
 	
 	$.getJSON(uri, function(data) {
-	    console.log(data)
+	    //console.log(data)
 	    success(data);
 	});
     }

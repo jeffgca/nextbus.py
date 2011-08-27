@@ -2,13 +2,12 @@
 <html>
 <head>
 <meta charset="utf-8"/>
-<title>JQuery Mobile hackery</title>
-
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.css" />
-<script type="text/javascript" src="js/jquery-1.5.min.js"></script>
-<script type="application/x-javascript" src="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.js"></script>
+<title>Nextbus</title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.css" />
+<script type="application/x-javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="application/x-javascript" src="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.js"></script>
 <script type="application/x-javascript" src="js/nextbus.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>-->
 <script type="application/x-javascript">
 
     var err = function(a, b) {
@@ -34,58 +33,76 @@
         $('#stop-list').html(out);
         $('#stop-list').listview('refresh');
         $('#stop-list li a').click(function(ev) {
-            console.log(ev.currentTarget.id);
+            $.mobile.showPageLoadingMsg();
             currentStop = ev.currentTarget.id;
+            nextbus.get(currentStop, function(data) {
+                nextbus.currentData[currentStop] = data;
+                $.mobile.hidePageLoadingMsg();
+                $.mobile.changePage('#stop-page');
+            });
+            
+            // 
+            return false;
         });
     }
     
-    var mapInitialized = false;
-    function initializeMap() {
-        if (!mapInitialized) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                var myOptions = {
-                    zoom: 16,
-                    center: latlng,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-                var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-                var marker = new google.maps.Marker({
-                    position: latlng,
-                    map: map
-                });
-                var infoWindow = new google.maps.InfoWindow({
-                    content: '<p>Current Latitude: ' + latlng.lat() + '</p><p>Current Longitude: ' + latlng.lng() + '</p>',
-                    position: latlng
-                });
-                infoWindow.open(map, marker);
-                $('#map_canvas').css('height', '274px');
-            });
-            mapInitialized = true;
-        }
-    }
+    //var mapInitialized = false;
+    //function initializeMap() {
+    //    if (!mapInitialized) {
+    //        navigator.geolocation.getCurrentPosition(function(position) {
+    //            var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    //            var myOptions = {
+    //                zoom: 16,
+    //                center: latlng,
+    //                mapTypeId: google.maps.MapTypeId.ROADMAP
+    //            };
+    //            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    //            var marker = new google.maps.Marker({
+    //                position: latlng,
+    //                map: map
+    //            });
+    //            var infoWindow = new google.maps.InfoWindow({
+    //                content: '<p>Current Latitude: ' + latlng.lat() + '</p><p>Current Longitude: ' + latlng.lng() + '</p>',
+    //                position: latlng
+    //            });
+    //            infoWindow.open(map, marker);
+    //            $('#map_canvas').css('height', '274px');
+    //        });
+    //        mapInitialized = true;
+    //    }
+    //}
     
-    $(document).ready(        
+    $(document).ready(
         function() {
             $('#stop-page').live('pageshow',function(event, ui) {
-                nextbus.get(currentStop, function(data) {
-                    $('#stop-name').html(data.stop_info.name);
-                    var out = "";
-                    
-                    // <li class="ui-li ui-li-static ui-body-c">Acura</li>
-                    
-                    for (i in data.data) {
-                        out += '<li class="ui-li ui-li-static ui-body-c">'
-                            + data.data[i].routeName + ': '
-                            + data.data[i].times.join(' ')
-                            + '</a></li>';
-                    }
-                    $('#route-list').html(out);
-                    $('#route-list').listview('refresh');
-                });
+                
+                if (!currentStop) {
+                    // short-circuit
+                    $.mobile.changePage('#nearby-page');
+                    return;    
+                }
+                
+                
+                var out = "", currentData = nextbus.currentData[currentStop];
+                
+                $('#stop-name').html(currentData.stop_info.name);
+                
+                for (i in currentData.data) {
+                    out += '<li class="ui-li ui-li-static ui-body-c">'
+                        + currentData.data[i].routeName + ': '
+                        + currentData.data[i].times.join(' ')
+                        + '</a></li>';
+                }
+                
+                $.mobile.hidePageLoadingMsg();
+                $('#route-list')
+                    .html(out)
+                    .listview('refresh');
+                
             });
             
             nextbus.init(window.nextbus_base_url);
+            $.mobile.showPageLoadingMsg();
             window.setTimeout(function() {
                 nextbus.geo.init(function() {
                     nextbus.geo.getCurrentLocation(function(location) {
@@ -100,7 +117,7 @@
             },
         200);
 
-    //initializeMap();
+    //initializeMap(); // too flaky
     }); 
 </script>
 </head>
@@ -121,7 +138,7 @@
 
 <div data-role="page" id="stop-page">
     <div data-role="header" id="stop-header">
-        <h1 id="stop-name">Placeholder</h1>
+        <h1 id="stop-name">Loading...</h1>
         <!--<a href="#map" data-rel="dialog" data-transition="pop">Map</a>-->
         <a href="#nearby-page">Back</a>
     </div>
