@@ -40,7 +40,7 @@ def index():
 def static(path):
     return static_file(path, root=static_root)
 
-bottle.debug(True)
+#bottle.debug(True)
 
 run(server='tornado', host='0.0.0.0', port=8000)
 
