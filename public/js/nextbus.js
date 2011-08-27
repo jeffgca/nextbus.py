@@ -166,11 +166,8 @@ if(typeof(nextbus.geo) == 'undefined') {
 	uri += latitude + '/';
 	uri += longitude;
 	
-
-	console.log(uri);
-	
 	$.getJSON(uri, function(data) {
-	    //console.log(data)
+	    // console.log(data)
 	    success(data);
 	});
     }
