@@ -3,6 +3,17 @@ from os.path import exists, abspath, dirname, basename
 import sqlite3
 import httplib, urllib
 
+from optparse import OptionParser
+parser = OptionParser()
+
+parser.add_option("-s",
+                  "--stop",
+                  dest="stop",
+                  help="The stop.",
+                  default="51217"
+                  )
+(options, args) = parser.parse_args()
+
 class TranslinkProxy(object):
     # sqlite3
     create_sql = 'CREATE TABLE IF NOT EXISTS stops(number int unique, name varchar(128), direction varchar(12));'
@@ -43,5 +54,5 @@ class TranslinkProxy(object):
 if __name__ == '__main__':
     # run some functional tests...
     t = TranslinkProxy()
-    print t.get_bus_times("51217")
+    print t.get_bus_times(options.stop)
     print t.get_nearby_stops("49.25344", "-123.16789")
