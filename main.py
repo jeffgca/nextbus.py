@@ -12,7 +12,9 @@ from os.path import abspath, dirname, basename, exists, join
 from simplejson import dumps, loads
 import translink
 
-proxy = translink.TranslinkProxy()
+dbFile = join(dirname(__file__), "db", "translink.sqlite3")
+
+proxy = translink.TranslinkProxy(dbPath=dbFile)
 static_root = abspath(join(dirname(__file__), "public"))
 
 @route('/times/:stop')
@@ -40,4 +42,5 @@ def static(path):
 
 bottle.debug(True)
 
-run(host='0.0.0.0', port=8080)
+run(server='tornado', host='0.0.0.0', port=8000)
+
